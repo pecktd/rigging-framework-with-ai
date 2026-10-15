@@ -4,174 +4,105 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rigging Framework with AI</title>
-<meta name="description" content="Course description: Building Your Own Rigging Framework with AI.">
+<meta name="description" content="Build your own Maya rigging framework from an empty folder, with Claude as your coding partner. No programming background needed.">
 <style>
 :root {
   --bg: #fbfaf7; --surface: #ffffff; --ink: #1d1d1b; --quiet: #5f5e58; --line: #dedbd2;
-  --accent: #2f6f62; --accent-soft: rgba(47,111,98,.10); --code-bg: #f1efe8;
+  --accent: #2f6f62; --accent-soft: rgba(47,111,98,.10);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #161715; --surface: #1e1f1c; --ink: #ecebe6; --quiet: #a3a29b; --line: #34352f;
-    --accent: #7cc4b2; --accent-soft: rgba(124,196,178,.12); --code-bg: #2a2b27;
+    --accent: #7cc4b2; --accent-soft: rgba(124,196,178,.12);
   }
 }
 :root[data-theme="dark"] {
   --bg: #161715; --surface: #1e1f1c; --ink: #ecebe6; --quiet: #a3a29b; --line: #34352f;
-  --accent: #7cc4b2; --accent-soft: rgba(124,196,178,.12); --code-bg: #2a2b27;
+  --accent: #7cc4b2; --accent-soft: rgba(124,196,178,.12);
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--ink);
-  font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-.layout { max-width: 1120px; margin: 0 auto; padding: 0 16px;
-  display: grid; grid-template-columns: 1fr; gap: 48px; }
-@media (min-width: 960px) { .layout { grid-template-columns: 220px minmax(0, 1fr); } }
-header { max-width: 1120px; margin: 0 auto; padding: 56px 16px 32px; }
+  font: 17px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header { padding: 72px 0 40px; }
 .eyebrow { color: var(--accent); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 13px; }
-h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.12; margin: 8px 0 12px; letter-spacing: -.01em; }
+h1 { font-size: clamp(32px, 6vw, 50px); line-height: 1.1; margin: 10px 0 18px; letter-spacing: -.015em; }
+.lead { font-size: 20px; color: var(--ink); margin: 0 0 12px; }
 .byline { color: var(--quiet); font-size: 14px; }
-nav { display: none; }
-@media (min-width: 960px) {
-  nav { display: block; position: sticky; top: 24px; align-self: start; font-size: 14px; }
-  nav ol { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--line); }
-  nav a { display: block; padding: 4px 0 4px 14px; color: var(--quiet); text-decoration: none; }
-  nav a:hover { color: var(--accent); }
-}
-main { min-width: 0; padding-bottom: 96px; }
-h2 { font-size: 26px; margin: 56px 0 12px; padding-top: 8px; border-top: 1px solid var(--line); }
-main > h2:first-child { margin-top: 0; border-top: 0; }
-h3 { font-size: 19px; margin: 36px 0 8px; }
-h4 { font-size: 17px; margin: 0 0 6px; }
-p, li { max-width: 72ch; }
-ul { padding-left: 22px; }
-li { margin: 4px 0; }
-code { font: 0.88em ui-monospace, "Cascadia Code", Consolas, monospace; background: var(--code-bg);
-  padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
-.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: 15px; }
-th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
-tr:last-child td { border-bottom: 0; }
-th { font-size: 13px; color: var(--quiet); font-weight: 600; }
-.module { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  padding: 18px 22px; margin: 14px 0; }
-.module ul { margin: 8px 0; }
-.module p:last-child, .module ul:last-child { margin-bottom: 0; }
-.diagram { margin: 24px 0; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
-.diagram svg { width: 100%; height: auto; display: block; font-size: 13px; }
-.diagram .band rect, .diagram .band path { fill: none; stroke: var(--quiet); stroke-width: 1.25; }
-.diagram .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
-.diagram .t { font-size: 15px; font-weight: 600; fill: var(--ink); }
-.diagram .n { font-weight: 600; fill: var(--ink); }
-.diagram .d { fill: var(--ink); }
-.diagram .q { font-size: 11.5px; fill: var(--quiet); }
-figcaption { color: var(--quiet); font-size: 13px; margin-top: 8px; }
+main { padding-bottom: 96px; }
+section { padding: 36px 0; border-top: 1px solid var(--line); }
+h2 { font-size: 24px; margin: 0 0 12px; }
+p { margin: 0 0 12px; }
+ul { padding-left: 22px; margin: 0 0 12px; }
+li { margin: 6px 0; }
+.parts { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
+@media (min-width: 640px) { .parts { grid-template-columns: 1fr 1fr; } }
+.part { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+.part .num { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+.part h3 { font-size: 18px; margin: 4px 0 6px; }
+.part p { margin: 0; color: var(--quiet); font-size: 16px; }
+.highlight { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0 0; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.fact b { display: block; font-size: 22px; }
+.fact span { color: var(--quiet); font-size: 14px; }
 </style>
 </head>
 <body>
+<div class="wrap">
 <header>
-  <div class="eyebrow">Course description</div>
+  <div class="eyebrow">Course</div>
   <h1>Building Your Own Rigging Framework with AI</h1>
-  <div class="byline">peck kanjanasahas · draft 2026-10-14</div>
+  <p class="lead">Build your own Maya rigging framework from an empty folder, with Claude as your coding partner. No programming background needed.</p>
+  <div class="byline">peck kanjanasahas</div>
 </header>
-<div class="layout">
-<nav aria-label="Contents"><ol><li><a href="#course-overview">Course overview</a></li><li><a href="#who-this-course-is-for">Who this course is for</a></li><li><a href="#what-you-will-be-able-to-do">What you will be able to do</a></li><li><a href="#how-the-course-is-taught">How the course is taught</a></li><li><a href="#syllabus">Syllabus</a></li><li><a href="#final-project-and-format">Final project and format</a></li></ol></nav>
 <main>
-<h2 id="course-overview">Course overview</h2>
-<p>In this course, riggers use Claude as a coding partner to build a working rigging framework of their own, from an empty folder to a tool that builds, saves and rebuilds a rigged asset.</p>
-<p>A rigging framework is more than an auto-rig. It covers the whole workflow of building a rigged asset: the code that wraps Maya nodes, naming rules, reusable rig components, data that is exported and imported between builds, and the UIs artists use every day. The course builds each of those layers in order, so every layer rests on the one under it.</p>
-<p>The central idea is to copy Maya&#x27;s own node hierarchy in Python. Students start with a <code>Node</code> class, then derive <code>DG</code> and <code>DAG</code> classes from it, the same way Maya does. Each class can reach its attributes through attribute objects. Once that foundation exists, every later tool is shorter, easier to read and easier for Claude to extend.</p>
-<h2 id="who-this-course-is-for">Who this course is for</h2>
-<p>The course is for riggers and technical artists who know Maya but have never built a framework, and may never have written more than a few lines of code.</p>
-<ul><li><strong>Riggers</strong> who rig by hand or with someone else&#x27;s auto-rig and want their own system.</li><li><strong>Technical artists</strong> with some MEL or Python snippets who want to grow them into a real codebase.</li><li><strong>Rigging leads</strong> who want a pipeline their team can maintain and extend with AI.</li></ul>
-<p>No programming background is required. Claude writes most of the first draft of the code; students learn to read it, question it, test it in Maya, and direct the next change. Python basics are taught as they come up, not as a separate lecture.</p>
-<h3 id="prerequisites">Prerequisites</h3>
-<div class="table-wrap"><table><thead><tr><th>Tool</th><th>What it is used for</th><th>Required level</th></tr></thead><tbody><tr><td>Autodesk Maya (2022 or later, Python 3)</td><td>Running and testing every module</td><td>Comfortable rigging by hand: joints, constraints, skinning, the Node Editor</td></tr><tr><td>Visual Studio Code</td><td>Editing the framework, browsing files, running Claude Code</td><td>None; set up in Module 0</td></tr><tr><td>Claude (Claude Code in VS Code, Pro plan or higher)</td><td>Writing, explaining and reviewing code</td><td>None; taught in Module 0</td></tr><tr><td>Git (optional)</td><td>Saving versions of the framework</td><td>None; the basics are covered in Module 0</td></tr></tbody></table></div>
-<p>Students should bring one character or prop asset they want to rig. It is used for the final project.</p>
-<h2 id="what-you-will-be-able-to-do">What you will be able to do</h2>
-<p>By the end of the course, each student owns a framework that rebuilds their asset from a single <code>build.py</code> script. They can also explain every layer of it.</p>
-<ol><li>Set up a Maya + VS Code + Claude Code workspace and send code from VS Code to Maya.</li><li>Describe a coding task to Claude clearly, review what it writes, and test it in Maya before accepting it.</li><li>Write a naming convention and the functions that parse and build names from it.</li><li>Wrap Maya nodes in Python classes (<code>Node</code>, <code>Dg</code>, <code>Dag</code>, <code>Joint</code>, <code>Controller</code>) that mirror Maya&#x27;s own node types.</li><li>Use an <code>Attr</code> class to read, set, lock, hide and connect attributes with short, readable code such as <code>ctrl.attr(&#x27;ty&#x27;) &gt;&gt; grp.attr(&#x27;ty&#x27;)</code>.</li><li>Write a rig base class that names, tags and groups every node a component creates.</li><li>Build rig components, from a FK chain to a full arm with IK/FK switching, on top of that base.</li><li>Export and import the data a rebuild needs: guides, skeleton, control shapes, skin weights, blendshapes and attribute values.</li><li>Build simple Qt UIs that artists use to run builds and data tools.</li><li>Keep the framework healthy with version control and conventions that Claude follows.</li></ol>
-<h2 id="how-the-course-is-taught">How the course is taught</h2>
-<p>Every module uses the same loop: understand the rigging idea, ask Claude to build it, test it in Maya, then improve it.</p>
-<ol><li><strong>Concept.</strong> The instructor explains the rigging problem in Maya terms first, with no code. For example: what a zero group is for, or why DAG nodes have paths and DG nodes do not.</li><li><strong>Design.</strong> The instructor shows where this layer sits in the framework: its file, its classes and what it may import. Students know what they are building before they ask Claude for it.</li><li><strong>Prompt.</strong> Students describe the module to Claude in plain language. They give it the naming rules and the classes already written.</li><li><strong>Test in Maya.</strong> Students run the code, read any errors, and paste them back to Claude. Learning to debug this way is a core skill.</li><li><strong>Review and own it.</strong> Students ask Claude to explain each line they do not understand, then make one change by hand.</li></ol>
-<h3 id="the-framework-layout">The framework layout</h3>
-<p>Students build the framework from scratch. It follows a layout designed for production rigging: each layer is one file or folder, and each module adds the next one. By the end, every student&#x27;s myrig/ package has the structure below.</p>
-<div class="table-wrap"><table><thead><tr><th>File in <code>myrig/</code></th><th>What it teaches</th></tr></thead><tbody><tr><td><code>naming_tools.py</code></td><td>Naming convention <code>[side_]{module_}[desc_]{type}</code>, <code>parse()</code> and <code>build()</code></td></tr><tr><td><code>core.py</code></td><td>Constants such as <code>Side</code> and <code>Color</code>; <code>Node</code> → <code>Dg</code> / <code>Dag</code> → <code>Joint</code>, <code>Controller</code>; creation helpers</td></tr><tr><td><code>decorator.py</code></td><td><code>undo_chunk</code>, <code>preserve_selection</code>, <code>timer</code></td></tr><tr><td><code>attr.py</code></td><td><code>Attr</code> class: get, set, lock, hide, connect with <code>&gt;&gt;</code></td></tr><tr><td><code>stubs/</code></td><td>Stubs generated from Maya, so the editor autocompletes every node type without a wrapper class per node</td></tr><tr><td><code>components/_base.py</code></td><td><code>BaseRig</code>, <code>BodyBase</code>: <code>init_node()</code>, <code>add_controller()</code></td></tr><tr><td><code>components/rig_main_group.py</code>, <code>rig_fk.py</code>, <code>rig_arm.py</code></td><td>Real components, from simple to complex</td></tr><tr><td><code>io/data_io.py</code></td><td>Writing and reading skin, blendshape, curve, skeleton and attribute data</td></tr><tr><td><code>io/rig_builder.py</code></td><td>Running a <code>build.py</code> from a clean scene</td></tr><tr><td><code>ui/</code></td><td>Workspace UI, asset browser, rigging toolbox</td></tr></tbody></table></div>
-<h3 id="working-with-claude">Working with Claude</h3>
-<p>Students keep a <code>CLAUDE.md</code> file at the root of their framework. It records the naming convention, the class hierarchy and the coding style. Claude reads this file every session, so its code stays consistent with the framework as the framework grows. Students update the file at the end of each module.</p>
-<h2 id="syllabus">Syllabus</h2>
-<p>The course has 12 modules in four parts. Each module ends with a lab whose result is added to the student&#x27;s own framework.</p>
-<figure class="diagram">
-<svg viewBox="0 0 760 664" role="img" aria-label="Each layer of the framework is built on the one below it">
-<g class="band"><rect x="24" y="56" width="712" height="44" rx="8"/><rect x="24" y="112" width="712" height="44" rx="8"/><rect x="24" y="168" width="712" height="44" rx="8"/><rect x="24" y="224" width="712" height="44" rx="8"/><rect x="24" y="280" width="712" height="44" rx="8"/><rect x="24" y="540" width="350" height="44" rx="8"/><rect x="386" y="540" width="350" height="44" rx="8"/><rect x="24" y="596" width="712" height="44" rx="8"/></g>
-<rect class="hl" x="24" y="336" width="712" height="192" rx="8"/>
-<g class="band"><rect x="320" y="362" width="120" height="36" rx="8"/><rect x="160" y="422" width="120" height="36" rx="8"/><rect x="460" y="422" width="120" height="36" rx="8"/><rect x="390" y="480" width="120" height="32" rx="8"/><rect x="530" y="480" width="120" height="32" rx="8"/>
-<path d="M380 398V410H220V422M380 410H520V422M520 458V469H450V480M520 469H590V480"/></g>
-<text class="t" x="24" y="34">Each layer of the framework is built on the one below it</text>
-<g class="n">
-<text x="40" y="83">Tool UIs</text><text x="40" y="139">Build script</text><text x="40" y="195">Data IO</text><text x="40" y="251">Components</text><text x="40" y="307">Rig base</text><text x="40" y="362">Node classes</text><text x="40" y="567">Core</text><text x="402" y="567">Attr class</text><text x="40" y="623">Naming tools</text>
-<text x="380" y="384" text-anchor="middle">Node</text><text x="220" y="444" text-anchor="middle">Dg</text><text x="520" y="444" text-anchor="middle">Dag</text></g>
-<g class="d">
-<text x="230" y="83">workspace UI, asset browser, rigging toolbox</text><text x="230" y="139">build.py main() run by rig_builder</text><text x="230" y="195">guides, skeleton, shapes, skin, blendshapes</text><text x="230" y="251">MainGroup, Fk, Arm, Leg, Torso</text><text x="230" y="307">BaseRig: init_node(), add_controller()</text><text x="88" y="567">Side, Color, undo_chunk, timer</text><text x="496" y="567">lock, hide, src &gt;&gt; dst</text><text x="230" y="623">parse(), build()</text>
-<text x="450" y="500" text-anchor="middle">Joint</text><text x="590" y="500" text-anchor="middle">Controller</text></g>
-<g class="q">
-<text x="720" y="83" text-anchor="end">Module 11</text><text x="720" y="139" text-anchor="end">Module 10</text><text x="720" y="195" text-anchor="end">Module 9</text><text x="720" y="251" text-anchor="end">Modules 7 to 8</text><text x="720" y="307" text-anchor="end">Module 6</text><text x="720" y="362" text-anchor="end">Modules 4 to 5</text><text x="358" y="567" text-anchor="end">Module 2</text><text x="720" y="567" text-anchor="end">Module 3</text><text x="720" y="623" text-anchor="end">Module 1</text>
-<text x="452" y="384">MObject, name, attr(), add()</text><text x="220" y="478" text-anchor="middle">any utility node, dynamic attrs</text><text x="592" y="444">parent, shapes, matrix</text></g>
-</svg>
-<figcaption>Framework layers and the module that builds each one</figcaption>
-</figure>
-<p>The modules run bottom to top. The Node classes layer (Modules 4 and 5) is the foundation every layer above it calls.</p>
-<h3 id="part-1-foundation">Part 1 — Foundation</h3>
-<section class="module"><h4 id="module-0-setup-and-working-with-ai">Module 0: Setup and working with AI</h4>
-<p>Students set up the tools and learn the prompt, test and review loop before writing any rigging code.</p>
-<ul><li>Install VS Code, Claude Code and the Maya Python extension; connect VS Code to Maya&#x27;s command port.</li><li>Create the framework package (<code>myrig/__init__.py</code>) and add it to Maya&#x27;s Python path.</li><li>How to ask Claude for code: give context, state the result you want, ask for one small step at a time.</li><li>Reading a Maya error message and handing it back to Claude.</li><li>Git basics: commit after each working step.</li><li><strong>Lab:</strong> ask Claude for a script that creates a joint chain from selected locators, then run and fix it.</li></ul>
-</section><section class="module"><h4 id="module-1-naming-tools">Module 1: Naming tools</h4>
-<p>Students write the naming convention that every node in their rigs will follow, plus the code that enforces it. This code is plain Python with no Maya calls, so it is where students learn the Python they need.</p>
-<ul><li>Python for riggers: variables, lists, dicts, functions, classes, imports, <code>maya.cmds</code> vs <code>maya.api.OpenMaya</code>.</li><li>Designing a convention: <code>[side_]{module_}[desc_]{type}</code>, for example <code>lft_ik_arm_ctrl</code> or <code>lft_fk_arm_1_jnt</code>.</li><li>Choosing type suffixes: <code>ctrl</code>, <code>zr</code>, <code>ofst</code>, <code>jnt</code>, <code>grp</code>, <code>crv</code> and utility-node suffixes.</li><li><code>parse(name)</code> splits a name into side, descriptions and type; <code>build(side, names, type_)</code> joins them back.</li><li>Mirroring names left to right; camelCase helpers for attribute names.</li><li><strong>Lab:</strong> write <code>naming_tools.py</code>, then ask Claude to write tests for <code>parse()</code> and <code>build()</code>.</li></ul>
-</section><section class="module"><h4 id="module-2-core-the-framework-x27-s-skeleton">Module 2: Core — the framework&#x27;s skeleton</h4>
-<p>Students set up the shared building blocks that every later module uses.</p>
-<ul><li>Constants as small classes: <code>Side</code> (<code>lft</code>, <code>rgt</code>), <code>Color</code>, rotate orders, operators.</li><li>Decorators that make tools safe for artists: <code>undo_chunk</code>, <code>preserve_selection</code>, <code>timer</code>.</li><li>How modules depend on each other, and why <code>core</code> must not import from components.</li><li><strong>Lab:</strong> create <code>core.py</code> with <code>Side</code> and <code>Color</code>, and <code>decorator.py</code> with <code>undo_chunk</code>.</li></ul>
-</section><section class="module"><h4 id="module-3-the-attribute-class">Module 3: The attribute class</h4>
-<p>Students wrap Maya attributes in an <code>Attr</code> class so rig code reads like a sentence.</p>
-<ul><li><code>Attr(&#x27;ctrl.tx&#x27;)</code>: <code>value</code>, <code>lock</code>, <code>hide</code>, <code>keyable</code>, <code>exists</code>, <code>type</code>, <code>children</code>.</li><li>Python properties: why <code>attr.lock = True</code> is easier to read than a <code>setAttr</code> call.</li><li>Operator overloading: <code>src &gt;&gt; dst</code> to connect, <code>attr[0]</code> for multi attributes.</li><li>Compound attribute classes: <code>XyzAttr</code>, <code>RgbAttr</code>.</li><li><strong>Lab:</strong> build <code>attr.py</code> and rewrite a 20-line <code>cmds</code> script with it.</li></ul>
-</section><section class="module"><h4 id="module-4-node-classes-node-dg-and-dag">Module 4: Node classes — Node, DG and DAG</h4>
-<p>This is the core idea of the course: students rebuild Maya&#x27;s node hierarchy as Python classes, and every later tool stands on it.</p>
-<ul><li>How Maya organises nodes: dependency (DG) nodes vs DAG nodes with transforms, shapes and paths.</li><li><code>Node</code>: holds the <code>MObject</code>, <code>name</code>, <code>attr()</code>, <code>add()</code> to add attributes, lock and hide helpers, <code>get_side()</code>.</li><li><code>Dg(Node)</code>: utility nodes. <code>Dag(Node)</code>: parent, children, shape, world position, axes, snapping.</li><li>Specialised classes: <code>Joint(Dag)</code>, <code>Controller(Dag)</code> with shape library, colour and scale.</li><li>Why names alone break (renames, duplicate names) and how <code>MObject</code> and <code>MDagPath</code> solve it.</li><li><strong>Lab:</strong> build <code>core.py</code>&#x27;s class hierarchy; create a controller, colour it, parent it under a zero group.</li></ul>
-</section><section class="module"><h4 id="module-5-dynamic-attributes-and-generated-stubs">Module 5: Dynamic attributes and generated stubs</h4>
-<p>Students make every Maya node usable from their framework without writing a wrapper class per node type. They then get editor autocomplete back by generating stubs from Maya itself.</p>
-<ul><li>Why per-node wrapper classes don&#x27;t scale: a framework that hand-writes a class per node type grows to thousands of lines, and it never covers them all.</li><li><code>Node.__getattr__</code>: <code>md.input1X</code> returns an <code>Attr</code> for any node type, plugin nodes included, in about 15 lines.</li><li>Guards: Python methods win over Maya attributes (<code>node.name</code> vs <code>node.attr(&#x27;name&#x27;)</code>), internal names are skipped, and a typo raises a clear <code>AttributeError</code>.</li><li>Teach the explicit <code>node.attr(&#x27;tx&#x27;)</code> first, then the shortcut.</li><li>Introspection: reading a node type&#x27;s attributes from Maya with <code>om.MNodeClass</code>.</li><li>A stub generator that writes <code>.pyi</code> classes and typed <code>create()</code> overloads, so VS Code autocompletes <code>rc.create(&#x27;multiplyDivide&#x27;).</code></li><li>When a hand-written class still earns its place: added behaviour, such as <code>BlendShape</code> target management or an operation enum setter.</li><li>Creation helpers: <code>create()</code>, <code>group()</code>, <code>joint()</code>, <code>locator()</code>, <code>create_control()</code>, constraint shortcuts.</li><li><strong>Lab:</strong> ask Claude to write the stub generator, generate stubs for the student&#x27;s own node list, then build a stretchy distance setup with autocomplete.</li></ul>
-</section><h3 id="part-2-rig-components">Part 2 — Rig components</h3>
-<section class="module"><h4 id="module-6-rig-base">Module 6: Rig base</h4>
-<p>Students write the base class every component inherits from. It decides how nodes are named, tagged and grouped.</p>
-<ul><li><code>BaseRig(module, tag, side)</code>: the component&#x27;s meta node and its groups.</li><li><code>init_node(node, side, names, type_)</code>: names a node by the convention and stores metadata on it.</li><li>Body helpers: <code>add_controller()</code> creates the zero group, offset and control stack in one call; <code>add_space_blender()</code>.</li><li>The main group: <code>world</code>, <code>global</code> and <code>local</code> controls; <code>ctrl_grp</code>, <code>jnt_grp</code>, <code>still_grp</code>.</li><li><strong>Lab:</strong> write <code>_base.py</code> and the <code>MainGroup</code> component.</li></ul>
-</section><section class="module"><h4 id="module-7-basic-components">Module 7: Basic components</h4>
-<p>Students build simple, reusable components and learn the pattern every component follows.</p>
-<ul><li>Component pattern: inputs (guide joints, parent, side) → nodes → connections → outputs other components plug into.</li><li>FK chain, point (single control), COG, neck and head.</li><li>Connecting components: parenting to another component&#x27;s output.</li><li><strong>Lab:</strong> rig a simple prop or tail with <code>MainGroup</code> + <code>Fk</code> components.</li></ul>
-</section><section class="module"><h4 id="module-8-limb-components">Module 8: Limb components</h4>
-<p>Students build the components that make a character rig: arms, legs and spines.</p>
-<ul><li>IK/FK arm with a blend switch, pole vector and stretch.</li><li>Leg with reverse-foot pivots; torso with spline IK.</li><li>Space switching between parents.</li><li>Non-roll and twist joints.</li><li><strong>Lab:</strong> rig both arms of the student&#x27;s character from one component class, using the side to mirror.</li></ul>
-</section><h3 id="part-3-data-and-build-pipeline">Part 3 — Data and build pipeline</h3>
-<section class="module"><h4 id="module-9-data-io">Module 9: Data IO</h4>
-<p>Students export the data that cannot be generated by code and import it back during every build.</p>
-<div class="table-wrap"><table><thead><tr><th>Data</th><th>Why it must be saved</th><th>Format</th></tr></thead><tbody><tr><td>Guides (joint placement)</td><td>The artist positions them by hand</td><td><code>.ma</code> or JSON</td></tr><tr><td>Skeleton</td><td>Joint hierarchy and orients</td><td>JSON</td></tr><tr><td>Control shapes</td><td>Artists reshape controls after the build</td><td>JSON (CV positions per control)</td></tr><tr><td>Skin weights</td><td>Painted by hand</td><td>JSON or ngSkinTools layers</td></tr><tr><td>Blendshapes</td><td>Sculpted targets</td><td>Pack files</td></tr><tr><td>Attribute values</td><td>Tuned defaults such as stretch limits</td><td>JSON</td></tr><tr><td>Shading</td><td>Assignments needed for review</td><td>Pack files</td></tr></tbody></table></div>
-<ul><li>A workspace folder layout per asset, and functions that find paths in it.</li><li>The write and read pair: every exporter has a matching importer.</li><li>Matching data to nodes by name, and what to do when names change.</li><li><strong>Lab:</strong> write <code>data_io.py</code> with control-shape and skin-weight export and import.</li></ul>
-</section><section class="module"><h4 id="module-10-the-build-script">Module 10: The build script</h4>
-<p>Students turn their rig into a script that rebuilds it from scratch, so any change can be rebuilt in seconds.</p>
-<ul><li><code>build.py</code> with a <code>main()</code>: import model, import guides, build components, read data, clean up.</li><li><code>rig_builder.run()</code>: new scene, run <code>main()</code>, post-build steps (control and joint sets), save <code>.ma</code>.</li><li>Iteration: change a guide or a weight, rebuild, compare.</li><li><strong>Lab:</strong> rebuild the character rig with one command.</li></ul>
-</section><h3 id="part-4-tool-uis">Part 4 — Tool UIs</h3>
-<section class="module"><h4 id="module-11-uis-for-artists">Module 11: UIs for artists</h4>
-<p>Students wrap their framework in simple Qt tools so artists can use it without writing code.</p>
-<ul><li>PySide basics: windows, layouts, buttons, lists; docking a window in Maya.</li><li>Asking Claude for a UI from a sketch or a description.</li><li>Keeping UI code separate from rig code: the UI calls framework functions and holds no rig logic.</li><li>Example tools: workspace and asset browser, data IO panel (export and import buttons), rigging toolbox.</li><li><strong>Lab:</strong> build a workspace UI that picks an asset, runs its build and exports or imports its data.</li></ul>
-</section><h3 id="advanced-track-follow-up-course">Advanced track (follow-up course)</h3>
-<p>The core course covers the full framework. A follow-up course goes deeper into rig development:</p>
-<ul><li>Facial rigging components and blendshape (FACS) systems.</li><li>Matrix-based rigging and parallel evaluation performance.</li><li>A node-graph build editor in place of <code>build.py</code>.</li><li>Animator pickers and production tools.</li><li>Testing, versioning and migrating rigs between framework versions.</li><li>Running the framework across a team and a studio pipeline.</li></ul>
-<h2 id="final-project-and-format">Final project and format</h2>
-<p>For the final project, each student rebuilds their own asset with their own framework, from a clean scene, with one command.</p>
-<p><strong>The final project must show:</strong></p>
-<ul><li>A framework package with <code>core</code>, <code>naming_tools</code>, <code>attr</code>, rig base and at least four components.</li><li>A <code>build.py</code> that rebuilds the asset from model, guides and saved data.</li><li>Control shapes and skin weights that survive a rebuild.</li><li>One UI that an artist can use to build the rig and export or import data.</li><li>A <code>CLAUDE.md</code> that describes the framework&#x27;s conventions.</li><li>A 5-minute demo: change a guide, rebuild, and show that the data comes back.</li></ul>
-<h3 id="suggested-format">Suggested format</h3>
-<div class="table-wrap"><table><thead><tr><th>Item</th><th>Proposal</th></tr></thead><tbody><tr><td>Length</td><td>12 weekly sessions (Modules 0 to 11), plus a final demo session</td></tr><tr><td>Session</td><td>3 hours: 45 min concept and design, 2 h guided lab, 15 min review</td></tr><tr><td>Homework</td><td>Finish the lab and update <code>CLAUDE.md</code>, about 2 to 3 hours a week</td></tr><tr><td>Class size</td><td>Up to 12 students, so the instructor can review every framework</td></tr><tr><td>Materials</td><td>Slides, a starter repo per module, prompt examples, and the instructor&#x27;s solution code for each lab</td></tr></tbody></table></div>
-<p>Open question: the length, session size and delivery mode (live online, in person or recorded) above are a proposal and still need to be decided.</p>
+<section>
+  <h2>What you will build</h2>
+  <p>By the end of the course you own a working rigging framework, and you can rebuild your own character or prop from a clean scene with one command.</p>
+  <p>A framework is more than an auto-rig. Yours will cover the whole workflow: naming rules, Python classes that wrap Maya nodes, reusable rig components such as FK chains and IK/FK arms, data that survives every rebuild, and simple tools that artists use every day.</p>
+</section>
+<section>
+  <h2>Who it is for</h2>
+  <p>Riggers and technical artists who know Maya but have never built a framework of their own.</p>
+  <ul>
+    <li>Riggers who rig by hand or with someone else's auto-rig and want their own system.</li>
+    <li>Technical artists with a few MEL or Python snippets who want to grow them into real tools.</li>
+    <li>Rigging leads who want a pipeline their team can maintain and extend with AI.</li>
+  </ul>
+  <p class="highlight">You don't need to know how to code. Claude writes the first draft of the code, and you learn to read it, test it in Maya and direct the next change.</p>
+</section>
+<section>
+  <h2>What you will learn</h2>
+  <p>The course has 12 modules in four parts. Each part builds on the one before it.</p>
+  <div class="parts">
+    <div class="part"><div class="num">Part 1</div><h3>Foundation</h3><p>Your workspace, a naming convention, and Python classes that work with Maya nodes and attributes.</p></div>
+    <div class="part"><div class="num">Part 2</div><h3>Rig components</h3><p>A rig base, then components from a simple FK chain to a full arm and leg.</p></div>
+    <div class="part"><div class="num">Part 3</div><h3>Data and build pipeline</h3><p>Saving guides, control shapes and skin weights, and a build script that rebuilds the rig.</p></div>
+    <div class="part"><div class="num">Part 4</div><h3>Tool UIs</h3><p>Simple Qt tools that let artists build rigs and move data without writing code.</p></div>
+  </div>
+</section>
+<section>
+  <h2>How it works</h2>
+  <p>Every session follows the same loop: understand the rigging idea, ask Claude to build it, test it in Maya, then make it your own. You learn to work with AI the way a lead works with a junior: give clear direction, review the result, and stay in charge of the design.</p>
+  <p>Each module ends with a lab, and every lab adds a working piece to your framework. For the final project, you rebuild your own asset from a clean scene with one command.</p>
+</section>
+<section>
+  <h2>What you need</h2>
+  <ul>
+    <li>Autodesk Maya 2022 or later, and comfort rigging by hand.</li>
+    <li>Visual Studio Code and a Claude Pro plan or higher. We set both up together in the first session.</li>
+    <li>One character or prop you want to rig for your final project.</li>
+  </ul>
+</section>
+<section>
+  <h2>Format</h2>
+  <div class="facts">
+    <div class="fact"><b>12 weeks</b><span>plus a final demo session</span></div>
+    <div class="fact"><b>3 hours</b><span>per weekly session</span></div>
+    <div class="fact"><b>12 students</b><span>at most, so every framework gets reviewed</span></div>
+  </div>
+</section>
 </main>
 </div>
 </body>
